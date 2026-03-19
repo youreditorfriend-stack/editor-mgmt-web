@@ -4,7 +4,7 @@ import {
 } from 'firebase/firestore'
 import { signInWithEmailAndPassword, signOut as fbSignOut } from 'firebase/auth'
 import { db, auth } from './firebase'
-import { v4 as uuid } from 'https://cdn.skypack.dev/uuid'
+
 
 // ─── Auth ──────────────────────────────────────────────────────────────────
 
