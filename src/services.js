@@ -205,6 +205,22 @@ export async function deleteEditor(editorId) {
   // Note: Firebase Auth user remains (requires Admin SDK to delete fully)
 }
 
+// Find an editor by their unique editorCode and link them to this admin
+export async function linkEditorByCode(adminId, editorCode) {
+  const q = query(
+    collection(db, 'Users'),
+    where('role', '==', 'editor'),
+    where('editorCode', '==', editorCode.trim().toUpperCase())
+  )
+  const snap = await getDocs(q)
+  if (snap.empty) throw new Error('editor-not-found')
+  const editorDoc = snap.docs[0]
+  const editor = { id: editorDoc.id, ...editorDoc.data() }
+  if (editor.adminId && editor.adminId !== adminId) throw new Error('editor-has-admin')
+  await updateDoc(doc(db, 'Users', editor.id), { adminId })
+  return editor
+}
+
 // ─── Admin: Clients ──────────────────────────────────────────────────────────
 
 export function onMyClients(adminId, callback) {
@@ -313,6 +329,49 @@ export async function updateTaskStatus(taskId, status) {
 
 export async function deleteTask(taskId) {
   await deleteDoc(doc(db, 'Tasks', taskId))
+}
+
+// Mark a task as paid — stores the paid date (defaults to today)
+export async function markTaskPaid(taskId, dateStr) {
+  await updateDoc(doc(db, 'Tasks', taskId), {
+    paidAt: dateStr || new Date().toISOString().split('T')[0],
+    paidOn: serverTimestamp(),
+  })
+}
+
+// Editor creates a task (under their admin, with optional client)
+export async function createEditorTask(editorId, adminId, { clientId = '', title, description = '', editorAmount = 0, deadline = null }) {
+  const id = genId()
+  await setDoc(doc(db, 'Tasks', id), {
+    adminId,
+    editorId,
+    clientId,
+    title: title.trim(),
+    description: description.trim(),
+    status: 'pending',
+    editorAmount: Number(editorAmount) || 0,
+    clientAmount: 0,
+    assignedDate: serverTimestamp(),
+    deadline: deadline || null,
+    completedDate: null,
+    paidAt: null,
+    order: Date.now(),
+    dynamicData: {},
+    createdByEditor: true,
+  })
+  return id
+}
+
+// Get clients for a given admin (used by editors to assign clients)
+export function onAdminClients(adminId, callback) {
+  const q = query(
+    collection(db, 'Users'),
+    where('role', '==', 'client'),
+    where('adminId', '==', adminId)
+  )
+  return onSnapshot(q, snap => {
+    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+  })
 }
 
 export async function reorderTasks(tasks) {

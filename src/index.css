@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -40,6 +40,16 @@
   --purple:        #a78bfa;
   --purple-bg:     rgba(167,139,250,0.1);
   --purple-border: rgba(167,139,250,0.22);
+
+  /* Admin accent = blue */
+  --accent:        var(--blue);
+  --accent-bg:     var(--blue-bg);
+  --accent-border: var(--blue-border);
+
+  /* Master accent = purple */
+  --master-accent:        var(--purple);
+  --master-accent-bg:     var(--purple-bg);
+  --master-accent-border: var(--purple-border);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -48,7 +58,7 @@
 html, body {
   background: var(--bg);
   color: var(--t1);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -68,16 +78,13 @@ html, body {
 ::selection { background: rgba(255,255,255,0.14); }
 
 /* ─── Form Resets ───────────────────────────────────────────────────────── */
-input, textarea, select, button { font-family: inherit; }
+input, textarea, select, button { font-family: 'Inter', inherit; }
 input[type=date] { color-scheme: dark; }
 input[type=number]::-webkit-inner-spin-button { opacity: 0.3; }
 select option { background: #1a1a1a; color: var(--t1); }
 
 /* ─── Focus ─────────────────────────────────────────────────────────────── */
 :focus-visible { outline: 2px solid rgba(255,255,255,0.25); outline-offset: 2px; border-radius: 4px; }
-
-/* ─── Typography helpers ─────────────────────────────────────────────────── */
-.font-syne { font-family: 'Syne', sans-serif; }
 
 /* ─── Animations ────────────────────────────────────────────────────────── */
 @keyframes fadeUp {
@@ -95,29 +102,42 @@ select option { background: #1a1a1a; color: var(--t1); }
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .anim-up    { animation: fadeUp 0.28s ease forwards; }
 .anim-in    { animation: fadeIn 0.22s ease forwards; }
 .anim-scale { animation: scaleIn 0.2s ease forwards; }
 .spin       { animation: spin 0.75s linear infinite; }
+.anim-slide-right { animation: slideInRight 0.22s ease forwards; }
 
 /* ─── Table cell inputs ─────────────────────────────────────────────────── */
 .cell-input {
   width: 100%; border: none; background: transparent;
-  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  font-family: 'Inter', sans-serif; font-size: 13px;
   color: var(--t1); outline: none; padding: 9px 12px;
   transition: background 0.12s;
 }
 .cell-input:focus {
   background: rgba(255,255,255,0.04);
-  outline: 1px solid rgba(255,255,255,0.14);
+  outline: 1px solid rgba(96,165,250,0.3);
   border-radius: 4px;
 }
 .cell-input::placeholder { color: var(--t3); }
+
+/* ─── Admin accent (blue) nav items ─────────────────────────────────────── */
+.admin-nav-active {
+  color: var(--blue) !important;
+  background: var(--blue-bg) !important;
+  border-color: var(--blue-border) !important;
+}
+
+/* ─── Master accent (purple) nav items ──────────────────────────────────── */
+.master-topbar {
+  border-bottom-color: var(--purple-border) !important;
+}
 
 /* ─── Recharts overrides ────────────────────────────────────────────────── */
 .recharts-cartesian-grid-horizontal line,
@@ -133,3 +153,14 @@ select option { background: #1a1a1a; color: var(--t1); }
 .recharts-tooltip-label { color: var(--t2) !important; font-size: 11px !important; }
 .recharts-tooltip-item  { color: var(--t1) !important; font-size: 12px !important; }
 .recharts-legend-item-text { color: var(--t2) !important; font-size: 11px !important; }
+
+/* ─── Paid panel slide-in ───────────────────────────────────────────────── */
+.paid-panel {
+  position: fixed; right: 0; top: 0; bottom: 0;
+  width: 320px; background: var(--surface);
+  border-left: 1px solid var(--border2);
+  z-index: 200; padding: 24px 20px;
+  display: flex; flex-direction: column; gap: 16px;
+  animation: slideInRight 0.22s ease forwards;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.4);
+}

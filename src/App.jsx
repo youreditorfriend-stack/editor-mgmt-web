@@ -24,7 +24,7 @@ function AuthGuard({ children, roles }) {
       flexDirection: 'column', gap: 16,
     }}>
       <Spinner size={32} />
-      <p style={{ fontSize: 12, color: 'var(--t3)', fontFamily: 'DM Sans, sans-serif' }}>Loading…</p>
+      <p style={{ fontSize: 12, color: 'var(--t3)', fontFamily: 'Inter, sans-serif' }}>Loading…</p>
     </div>
   )
 

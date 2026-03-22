@@ -38,11 +38,11 @@ export function RevenueAreaChart({ data = [], dataKey = 'amount', color = '#c8c8
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey="month"
-          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'DM Sans' }}
+          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'Inter' }}
           axisLine={false} tickLine={false}
         />
         <YAxis
-          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'DM Sans' }}
+          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'Inter' }}
           axisLine={false} tickLine={false}
           tickFormatter={v => v >= 1000 ? `${prefix}${(v/1000).toFixed(0)}k` : `${prefix}${v}`}
           width={50}
@@ -69,11 +69,11 @@ export function EarningsBarChart({ data = [], dataKey = 'amount', color = '#a0a0
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey="month"
-          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'DM Sans' }}
+          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'Inter' }}
           axisLine={false} tickLine={false}
         />
         <YAxis
-          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'DM Sans' }}
+          tick={{ fill: 'var(--t3)', fontSize: 10, fontFamily: 'Inter' }}
           axisLine={false} tickLine={false}
           tickFormatter={v => v >= 1000 ? `${prefix}${(v/1000).toFixed(0)}k` : `${prefix}${v}`}
           width={50}
@@ -111,7 +111,7 @@ export function StatusPieChart({ data = [] }) {
         <Tooltip content={<CustomTooltip prefix="" />} />
         <Legend
           iconType="circle" iconSize={8}
-          formatter={v => <span style={{ fontSize: 11, color: 'var(--t2)', fontFamily: 'DM Sans' }}>{v}</span>}
+          formatter={v => <span style={{ fontSize: 11, color: 'var(--t2)', fontFamily: 'Inter' }}>{v}</span>}
         />
       </PieChart>
     </ResponsiveContainer>
@@ -137,7 +137,7 @@ export function ChartCard({ title, sub, children, height = 220, action }) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Syne, sans-serif' }}>{title}</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Inter, sans-serif' }}>{title}</div>
           {sub && <div style={{ fontSize: 11, color: 'var(--t3)', marginTop: 3 }}>{sub}</div>}
         </div>
         {action}
