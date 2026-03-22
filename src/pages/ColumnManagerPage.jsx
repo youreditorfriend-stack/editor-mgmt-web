@@ -4,20 +4,20 @@ import { onWorkspaceSettings, saveWorkspaceSettings } from '../services'
 import { Btn, Modal, Input, Spinner } from '../components/shared/UI'
 
 const TYPES = [
-  { value: 'text',   label: 'Text',            icon: '🔤' },
-  { value: 'number', label: 'Number',           icon: '🔢' },
-  { value: 'math',   label: 'Math (20+30=50)',  icon: '➕' },
-  { value: 'date',   label: 'Date',             icon: '📅' },
-  { value: 'select', label: 'Dropdown',         icon: '🔽' },
+  { value: 'text',   label: 'Text',           icon: 'T' },
+  { value: 'number', label: 'Number',          icon: '#' },
+  { value: 'math',   label: 'Math (20+30=50)', icon: '=' },
+  { value: 'date',   label: 'Date',            icon: '📅' },
+  { value: 'select', label: 'Dropdown',        icon: '▾' },
 ]
 
 export default function ColumnManagerPage() {
-  const [columns, setColumns]   = useState([])
-  const [editing, setEditing]   = useState(null)
-  const [saving, setSaving]     = useState(false)
-  const [saved, setSaved]       = useState(false)
-  const [loading, setLoading]   = useState(true)
-  const [dragIdx, setDragIdx]   = useState(null)
+  const [columns, setColumns] = useState([])
+  const [editing, setEditing] = useState(null)
+  const [saving, setSaving]   = useState(false)
+  const [saved, setSaved]     = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [dragIdx, setDragIdx] = useState(null)
 
   useEffect(() => {
     return onWorkspaceSettings(cols => { setColumns(cols); setLoading(false) })
@@ -34,9 +34,9 @@ export default function ColumnManagerPage() {
     }
   }
 
-  function openAdd()           { setEditing({ col: null, index: -1 }) }
-  function openEdit(col, i)    { setEditing({ col, index: i }) }
-  function closeModal()        { setEditing(null) }
+  function openAdd()        { setEditing({ col: null, index: -1 }) }
+  function openEdit(col, i) { setEditing({ col, index: i }) }
+  function closeModal()     { setEditing(null) }
 
   function handleModalSave(col) {
     if (editing.index === -1) {
@@ -66,38 +66,63 @@ export default function ColumnManagerPage() {
 
   if (loading) return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Spinner />
+      <Spinner size={28} />
     </div>
   )
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FAFAF9' }}>
+    <div style={{ minHeight: '100vh' }}>
       {/* Topbar */}
       <div style={{
-        background: '#fff', borderBottom: '1px solid #F1F1EF',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+        background: 'rgba(12,12,20,0.85)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
         padding: '0 24px', height: 56,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        position: 'sticky', top: 0, zIndex: 100,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Link to="/admin" style={{
-            fontSize: 13, color: '#73726C', textDecoration: 'none',
+            fontSize: 12, color: 'var(--t2)', textDecoration: 'none',
             display: 'flex', alignItems: 'center', gap: 4,
+            padding: '5px 10px', borderRadius: 7,
+            border: '1px solid var(--border)',
+            background: 'rgba(255,255,255,0.04)',
           }}>
             ← Dashboard
           </Link>
-          <span style={{ color: '#E9E9E7' }}>|</span>
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#191919' }}>Column Manager</span>
+          <span style={{ color: 'var(--border2)' }}>|</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Syne, sans-serif' }}>
+            Column Manager
+          </span>
         </div>
-        <Btn onClick={handleSave} variant="green" size="sm" disabled={saving}>
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          style={{
+            padding: '7px 16px', borderRadius: 8, fontSize: 12, fontWeight: 700,
+            border: 'none', cursor: saving ? 'not-allowed' : 'pointer',
+            fontFamily: 'DM Sans, sans-serif',
+            background: saved
+              ? 'rgba(16,185,129,0.15)'
+              : 'linear-gradient(135deg, #6d5fef, #8b7cf8)',
+            color: saved ? '#34d399' : '#fff',
+            outline: saved ? '1px solid rgba(16,185,129,0.25)' : '1px solid transparent',
+            boxShadow: saved ? 'none' : '0 4px 12px rgba(109,95,239,0.3)',
+            display: 'flex', alignItems: 'center', gap: 6,
+            transition: 'all 0.15s',
+          }}
+        >
           {saving ? <><Spinner size={13} color="#fff" /> Saving...</> : saved ? '✓ Saved!' : 'Save changes'}
-        </Btn>
+        </button>
       </div>
 
       {/* Info banner */}
       <div style={{
-        background: '#EEF4FF', borderBottom: '1px solid #C7DEFF',
-        padding: '9px 24px', fontSize: 12, color: '#0052A3',
+        background: 'rgba(109,95,239,0.08)',
+        borderBottom: '1px solid rgba(109,95,239,0.15)',
+        padding: '8px 24px', fontSize: 11, color: '#a89ff5',
         display: 'flex', alignItems: 'center', gap: 8, fontWeight: 500,
       }}>
         ⚡ Changes push to all editors instantly via Firestore realtime sync.
@@ -108,12 +133,16 @@ export default function ColumnManagerPage() {
         {columns.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '56px 24px' }}>
             <div style={{
-              width: 56, height: 56, borderRadius: 16, background: '#F1F1EF',
+              width: 56, height: 56, borderRadius: 16,
+              background: 'rgba(109,95,239,0.1)',
+              border: '1px solid rgba(109,95,239,0.15)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 26, margin: '0 auto 16px',
             }}>📋</div>
-            <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6, color: '#191919' }}>No columns yet</div>
-            <div style={{ fontSize: 13, color: '#AFAEA9', marginBottom: 24, lineHeight: 1.6 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: 'var(--t1)', fontFamily: 'Syne, sans-serif' }}>
+              No columns yet
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--t2)', marginBottom: 24, lineHeight: 1.7 }}>
               Add columns to define what editors enter in their workspace
             </div>
             <Btn onClick={openAdd} variant="primary">+ Add first column</Btn>
@@ -122,71 +151,91 @@ export default function ColumnManagerPage() {
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between',
                 alignItems: 'center', marginBottom: 14 }}>
-              <span style={{ fontSize: 12, color: '#AFAEA9', fontWeight: 500 }}>
+              <span style={{ fontSize: 10, color: 'var(--t3)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 {columns.length} column{columns.length !== 1 ? 's' : ''} · drag to reorder
               </span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {columns.map((col, i) => (
-                <div
-                  key={col.id}
-                  draggable
-                  onDragStart={() => onDragStart(i)}
-                  onDragOver={e => onDragOver(e, i)}
-                  onDragEnd={onDragEnd}
-                  className="animate-in"
-                  style={{
-                    background: dragIdx === i ? '#F7F7F5' : '#fff',
-                    border: `1px solid ${dragIdx === i ? '#E9E9E7' : '#F1F1EF'}`,
-                    borderRadius: 10,
-                    padding: '12px 16px',
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    cursor: 'grab', animationDelay: `${i * 30}ms`,
-                    transition: 'background 0.1s, border-color 0.1s',
-                    boxShadow: 'var(--shadow-sm)',
-                  }}
-                >
-                  <div style={{
-                    width: 34, height: 34, borderRadius: 8,
-                    background: '#F7F7F5', border: '1px solid #E9E9E7',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 16, flexShrink: 0,
-                  }}>
-                    {TYPES.find(t => t.value === col.type)?.icon ?? '🔤'}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: '#191919', display: 'flex', alignItems: 'center', gap: 6 }}>
-                      {col.name}
-                      {col.required && (
-                        <span style={{
-                          fontSize: 10, color: '#EB5757',
-                          background: '#FFF0F0', padding: '1px 6px', borderRadius: 4, fontWeight: 600,
-                        }}>required</span>
-                      )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+              {columns.map((col, i) => {
+                const typeInfo = TYPES.find(t => t.value === col.type)
+                return (
+                  <div
+                    key={col.id}
+                    draggable
+                    onDragStart={() => onDragStart(i)}
+                    onDragOver={e => onDragOver(e, i)}
+                    onDragEnd={onDragEnd}
+                    className="animate-in"
+                    style={{
+                      background: dragIdx === i
+                        ? 'rgba(109,95,239,0.12)'
+                        : 'rgba(17,17,32,0.6)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: `1px solid ${dragIdx === i ? 'rgba(109,95,239,0.3)' : 'rgba(255,255,255,0.07)'}`,
+                      borderRadius: 12,
+                      padding: '12px 16px',
+                      display: 'flex', alignItems: 'center', gap: 12,
+                      cursor: 'grab', animationDelay: `${i * 30}ms`,
+                      transition: 'all 0.12s',
+                    }}
+                    onMouseEnter={e => { if (dragIdx !== i) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
+                    onMouseLeave={e => { if (dragIdx !== i) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)' }}
+                  >
+                    {/* Type icon */}
+                    <div style={{
+                      width: 34, height: 34, borderRadius: 8,
+                      background: 'rgba(109,95,239,0.12)',
+                      border: '1px solid rgba(109,95,239,0.2)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 13, flexShrink: 0, color: '#a89ff5', fontWeight: 700,
+                    }}>
+                      {typeInfo?.icon ?? 'T'}
                     </div>
-                    <div style={{ fontSize: 12, color: '#73726C', marginTop: 1 }}>
-                      {TYPES.find(t => t.value === col.type)?.label ?? col.type}
-                      {col.type === 'select' && col.selectOptions?.length > 0 &&
-                        ` · ${col.selectOptions.join(', ')}`}
+
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--t1)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                        {col.name}
+                        {col.required && (
+                          <span style={{
+                            fontSize: 9, color: '#fca5a5',
+                            background: 'rgba(239,68,68,0.1)',
+                            border: '1px solid rgba(239,68,68,0.2)',
+                            padding: '1px 6px', borderRadius: 4, fontWeight: 600,
+                          }}>required</span>
+                        )}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--t2)', marginTop: 1 }}>
+                        {typeInfo?.label ?? col.type}
+                        {col.type === 'select' && col.selectOptions?.length > 0 &&
+                          ` · ${col.selectOptions.join(', ')}`}
+                      </div>
                     </div>
+
+                    <button
+                      onClick={() => openEdit(col, i)}
+                      style={iconBtn}
+                      title="Edit"
+                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(109,95,239,0.15)'; e.currentTarget.style.color = '#a89ff5' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--t2)' }}
+                    >✏</button>
+                    <button
+                      onClick={() => deleteCol(i)}
+                      style={iconBtn}
+                      title="Delete"
+                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#fca5a5' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--t2)' }}
+                    >✕</button>
+                    <span style={{ color: 'var(--t3)', fontSize: 14, cursor: 'grab', paddingLeft: 4 }}>⋮⋮</span>
                   </div>
-                  <button onClick={() => openEdit(col, i)} style={iconBtn}
-                    onMouseEnter={e => e.currentTarget.style.background = '#F1F1EF'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                  >✏️</button>
-                  <button onClick={() => deleteCol(i)} style={iconBtn}
-                    onMouseEnter={e => e.currentTarget.style.background = '#FFF0F0'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                  >🗑️</button>
-                  <span style={{ color: '#AFAEA9', fontSize: 16, cursor: 'grab', paddingLeft: 4 }}>⋮⋮</span>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </>
         )}
 
-        <div style={{ marginTop: 20 }}>
+        <div style={{ marginTop: 16 }}>
           <Btn onClick={openAdd} variant="ghost" size="sm">+ Add column</Btn>
         </div>
       </div>
@@ -203,9 +252,11 @@ export default function ColumnManagerPage() {
 }
 
 const iconBtn = {
-  background: 'transparent', border: 'none', cursor: 'pointer',
-  fontSize: 15, padding: '4px 6px', borderRadius: 6, lineHeight: 1,
-  transition: 'background 0.12s',
+  background: 'transparent',
+  border: 'none', cursor: 'pointer',
+  fontSize: 13, padding: '5px 7px', borderRadius: 6, lineHeight: 1,
+  color: 'var(--t2)', transition: 'all 0.12s',
+  fontFamily: 'DM Sans, sans-serif',
 }
 
 // ─── Column Modal ──────────────────────────────────────────────────────────
@@ -252,26 +303,26 @@ function ColumnModal({ existing, onSave, onClose }) {
         />
 
         <div>
-          <div style={{ fontSize: 13, color: '#73726C', fontWeight: 500, marginBottom: 8 }}>
+          <div style={{ fontSize: 10, color: 'var(--t2)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 10 }}>
             Type
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
             {TYPES.map(t => (
               <button
                 key={t.value}
                 onClick={() => setType(t.value)}
                 style={{
                   padding: '7px 13px', borderRadius: 8, fontSize: 12,
-                  border: `1px solid ${type === t.value ? '#0F7B6C' : '#E9E9E7'}`,
-                  background: type === t.value ? '#EAF3EB' : '#F7F7F5',
-                  color: type === t.value ? '#0A6158' : '#73726C',
-                  cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
+                  border: `1px solid ${type === t.value ? 'rgba(109,95,239,0.4)' : 'rgba(255,255,255,0.07)'}`,
+                  background: type === t.value ? 'rgba(109,95,239,0.15)' : 'rgba(255,255,255,0.04)',
+                  color: type === t.value ? '#a89ff5' : 'var(--t2)',
+                  cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', fontWeight: 600,
                   display: 'flex', alignItems: 'center', gap: 6,
                   transition: 'all 0.12s',
-                  boxShadow: type === t.value ? '0 0 0 2px rgba(15,123,108,0.15)' : 'none',
+                  boxShadow: type === t.value ? '0 0 0 2px rgba(109,95,239,0.1)' : 'none',
                 }}
               >
-                {t.icon} {t.label}
+                <span style={{ fontWeight: 700 }}>{t.icon}</span> {t.label}
               </button>
             ))}
           </div>
@@ -286,13 +337,15 @@ function ColumnModal({ existing, onSave, onClose }) {
           />
         )}
 
-        <label style={{ display: 'flex', alignItems: 'center', gap: 10,
-            cursor: 'pointer', fontSize: 13, fontWeight: 500, color: '#191919' }}>
+        <label style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          cursor: 'pointer', fontSize: 13, fontWeight: 500, color: 'var(--t1)',
+        }}>
           <input
             type="checkbox"
             checked={required}
             onChange={e => setReq(e.target.checked)}
-            style={{ width: 15, height: 15, accentColor: '#0F7B6C' }}
+            style={{ width: 15, height: 15, accentColor: '#6d5fef' }}
           />
           Required field
         </label>

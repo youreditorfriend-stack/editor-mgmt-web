@@ -113,6 +113,34 @@ export async function deleteTask(taskId) {
   await deleteDoc(doc(db, 'Tasks', taskId))
 }
 
+// ─── Editor Code ───────────────────────────────────────────────────────────
+
+function generateEditorCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  let code = 'YEF-'
+  for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)]
+  return code
+}
+
+export async function ensureEditorCode(uid) {
+  const ref = doc(db, 'Users', uid)
+  const snap = await getDoc(ref)
+  if (!snap.exists()) return null
+  const data = snap.data()
+  if (data.editorCode) return data.editorCode
+  const code = generateEditorCode()
+  await updateDoc(ref, { editorCode: code })
+  return code
+}
+
+export async function getEditorByCode(code) {
+  const q = query(collection(db, 'Users'), where('editorCode', '==', code.toUpperCase().trim()))
+  const snap = await getDocs(q)
+  if (snap.empty) return null
+  const d = snap.docs[0]
+  return { id: d.id, ...d.data() }
+}
+
 // ─── Stats ─────────────────────────────────────────────────────────────────
 
 export function calcEditorStats(tasks) {

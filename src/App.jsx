@@ -3,11 +3,12 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { useAuthStore } from './store'
 import { Spinner } from './components/shared/UI'
 
-import LoginPage       from './pages/LoginPage'
-import EditorDashboard from './pages/EditorDashboard'
-import WorkspacePage   from './pages/WorkspacePage'
-import AdminDashboard  from './pages/AdminDashboard'
+import LoginPage         from './pages/LoginPage'
+import EditorDashboard   from './pages/EditorDashboard'
+import WorkspacePage     from './pages/WorkspacePage'
+import AdminDashboard    from './pages/AdminDashboard'
 import ColumnManagerPage from './pages/ColumnManagerPage'
+import AdminEditorView   from './pages/AdminEditorView'
 import { AssignTaskPage, EditorsPage } from './pages/AdminPages'
 
 function AuthGuard({ children, requiredRole }) {
@@ -17,7 +18,7 @@ function AuthGuard({ children, requiredRole }) {
   if (loading) return (
     <div style={{ display: 'flex', height: '100vh',
         alignItems: 'center', justifyContent: 'center' }}>
-      <Spinner size={24} />
+      <Spinner size={28} />
     </div>
   )
 
@@ -60,6 +61,9 @@ export default function App() {
         } />
         <Route path="/admin/assign/:editorId" element={
           <AuthGuard requiredRole="admin"><AssignTaskPage /></AuthGuard>
+        } />
+        <Route path="/admin/editor/:editorId" element={
+          <AuthGuard requiredRole="admin"><AdminEditorView /></AuthGuard>
         } />
 
         {/* Default redirect */}
