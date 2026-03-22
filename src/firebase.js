@@ -24,4 +24,4 @@ export const secondaryApp  = initializeApp(firebaseConfig, 'secondary')
 export const secondaryAuth = getAuth(secondaryApp)
 
 // Master admin email — set this to the real master admin email
-export const MASTER_ADMIN_EMAIL = 'masteradmin@editorfriend.com'
+export const MASTER_ADMIN_EMAIL = 'youreditorfriend@gmail.com'
