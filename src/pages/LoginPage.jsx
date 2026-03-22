@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signIn } from '../services'
 import { useAuthStore } from '../store'
-import { Btn, Input, Spinner } from '../components/shared/UI'
+import { Spinner } from '../components/shared/UI'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -40,84 +40,123 @@ export default function LoginPage() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center',
-      justifyContent: 'center', padding: 24, background: '#FAFAF9',
+      justifyContent: 'center', padding: 24, background: '#F5F5F3',
+      backgroundImage: 'radial-gradient(ellipse at 60% 0%, #EAF3EB 0%, transparent 60%)',
     }}>
       <div style={{ width: '100%', maxWidth: 400 }} className="animate-in">
-        {/* Logo */}
+        {/* Card */}
         <div style={{
-          width: 40, height: 40, borderRadius: 10, background: '#191919',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#fff', fontSize: 22, fontWeight: 600, marginBottom: 32,
-        }}>E</div>
+          background: '#fff',
+          borderRadius: 16,
+          border: '1px solid #E9E9E7',
+          boxShadow: 'var(--shadow-lg)',
+          padding: '36px 32px',
+        }}>
+          {/* Logo */}
+          <div style={{
+            width: 44, height: 44, borderRadius: 12,
+            background: 'linear-gradient(135deg, #1A1A1A 0%, #3D3D3D 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontSize: 20, fontWeight: 700, marginBottom: 28,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+          }}>E</div>
 
-        <h1 style={{ fontSize: 24, fontWeight: 600, marginBottom: 6 }}>Welcome back</h1>
-        <p style={{ fontSize: 14, color: '#73726C', marginBottom: 32 }}>
-          Sign in to your editor workspace
-        </p>
+          <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 6, color: '#191919' }}>Welcome back</h1>
+          <p style={{ fontSize: 14, color: '#73726C', marginBottom: 28 }}>
+            Sign in to your editor workspace
+          </p>
 
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <Input
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-
-          <div style={{ position: 'relative' }}>
-            <Input
-              label="Password"
-              type={show ? 'text' : 'password'}
-              placeholder="••••••••"
-              value={pass}
-              onChange={e => setPass(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShow(!show)}
-              style={{
-                position: 'absolute', right: 10, bottom: 10,
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: '#73726C', fontSize: 13,
-              }}
-            >
-              {show ? 'Hide' : 'Show'}
-            </button>
-          </div>
-
-          {error && (
-            <div style={{
-              background: '#FFF0F0', border: '0.5px solid rgba(235,87,87,0.3)',
-              borderRadius: 8, padding: '10px 14px',
-              fontSize: 13, color: '#EB5757',
-              display: 'flex', alignItems: 'center', gap: 8,
-            }}>
-              ⚠️ {error}
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, color: '#73726C', fontWeight: 500 }}>Email</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                style={inputStyle}
+                onFocus={e => { e.target.style.borderColor = '#0F7B6C'; e.target.style.boxShadow = '0 0 0 3px rgba(15,123,108,0.1)'; e.target.style.background = '#fff' }}
+                onBlur={e => { e.target.style.borderColor = '#E9E9E7'; e.target.style.boxShadow = 'none'; e.target.style.background = '#F7F7F5' }}
+              />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: '100%', height: 46, borderRadius: 8,
-              background: loading ? '#888' : '#191919',
-              color: '#fff', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-              fontSize: 14, fontWeight: 500, fontFamily: 'DM Sans, sans-serif',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              marginTop: 4,
-            }}
-          >
-            {loading ? <><Spinner size={16} color="#fff" /> Signing in...</> : 'Sign in'}
-          </button>
-        </form>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, color: '#73726C', fontWeight: 500 }}>Password</label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={show ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={pass}
+                  onChange={e => setPass(e.target.value)}
+                  required
+                  style={{ ...inputStyle, paddingRight: 56 }}
+                  onFocus={e => { e.target.style.borderColor = '#0F7B6C'; e.target.style.boxShadow = '0 0 0 3px rgba(15,123,108,0.1)'; e.target.style.background = '#fff' }}
+                  onBlur={e => { e.target.style.borderColor = '#E9E9E7'; e.target.style.boxShadow = 'none'; e.target.style.background = '#F7F7F5' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShow(!show)}
+                  style={{
+                    position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
+                    background: 'none', border: 'none', cursor: 'pointer',
+                    color: '#73726C', fontSize: 12, fontWeight: 500,
+                    fontFamily: 'DM Sans, sans-serif', padding: '2px 4px',
+                  }}
+                >
+                  {show ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            </div>
 
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#AFAEA9', marginTop: 32 }}>
+            {error && (
+              <div style={{
+                background: '#FFF0F0', border: '1px solid rgba(235,87,87,0.25)',
+                borderRadius: 8, padding: '10px 14px',
+                fontSize: 13, color: '#EB5757',
+                display: 'flex', alignItems: 'center', gap: 8,
+              }}>
+                <span style={{ flexShrink: 0 }}>⚠️</span> {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%', height: 44, borderRadius: 8, marginTop: 4,
+                background: loading ? '#888' : '#191919',
+                color: '#fff', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+                fontSize: 14, fontWeight: 600, fontFamily: 'DM Sans, sans-serif',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                boxShadow: loading ? 'none' : 'var(--shadow-sm)',
+                transition: 'opacity 0.15s',
+              }}
+              onMouseEnter={e => { if (!loading) e.currentTarget.style.opacity = '0.87' }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+            >
+              {loading ? <><Spinner size={16} color="#fff" /> Signing in...</> : 'Sign in'}
+            </button>
+          </form>
+        </div>
+
+        <p style={{ textAlign: 'center', fontSize: 12, color: '#AFAEA9', marginTop: 20 }}>
           Contact your admin if you don't have access.
         </p>
       </div>
     </div>
   )
+}
+
+const inputStyle = {
+  fontFamily: 'DM Sans, sans-serif',
+  fontSize: 14,
+  padding: '10px 12px',
+  border: '1px solid #E9E9E7',
+  borderRadius: 8,
+  background: '#F7F7F5',
+  color: '#191919',
+  outline: 'none',
+  width: '100%',
+  transition: 'border-color 0.15s, box-shadow 0.15s, background 0.15s',
 }

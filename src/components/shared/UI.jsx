@@ -7,6 +7,7 @@ export function Spinner({ size = 18, color = '#0F7B6C' }) {
       border: `2px solid #E9E9E7`,
       borderTopColor: color,
       borderRadius: '50%',
+      flexShrink: 0,
     }} className="spin" />
   )
 }
@@ -15,10 +16,21 @@ export function Spinner({ size = 18, color = '#0F7B6C' }) {
 
 export function StatCard({ label, value, icon, color = '#0F7B6C', bg = '#EAF3EB' }) {
   return (
-    <div style={{ background: bg, borderRadius: 10, padding: '14px 16px', flex: 1 }}>
-      <div style={{ fontSize: 16, marginBottom: 6 }}>{icon}</div>
-      <div style={{ fontSize: 22, fontWeight: 600, color: '#191919', lineHeight: 1 }}>{value}</div>
-      <div style={{ fontSize: 12, color: '#73726C', marginTop: 4 }}>{label}</div>
+    <div style={{
+      background: bg,
+      borderRadius: 12,
+      padding: '16px 18px',
+      flex: 1,
+      boxShadow: 'var(--shadow-sm)',
+    }}>
+      <div style={{
+        width: 32, height: 32, borderRadius: 8,
+        background: 'rgba(255,255,255,0.6)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 16, marginBottom: 10,
+      }}>{icon}</div>
+      <div style={{ fontSize: 24, fontWeight: 700, color: '#191919', lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: 12, color: '#73726C', marginTop: 5, fontWeight: 500 }}>{label}</div>
     </div>
   )
 }
@@ -26,9 +38,9 @@ export function StatCard({ label, value, icon, color = '#0F7B6C', bg = '#EAF3EB'
 // ─── Badge ────────────────────────────────────────────────────────────────
 
 const STATUS_STYLES = {
-  pending:     { color: '#DFAB01', bg: '#FFF8E6', label: 'Pending' },
-  in_progress: { color: '#0066CC', bg: '#E8F0FF', label: 'In Progress' },
-  completed:   { color: '#0F7B6C', bg: '#EAF3EB', label: 'Completed' },
+  pending:     { color: '#B98000', bg: '#FFF8E6', dot: '#DFAB01', label: 'Pending' },
+  in_progress: { color: '#0052A3', bg: '#E8F0FF', dot: '#0066CC', label: 'In Progress' },
+  completed:   { color: '#0A6158', bg: '#EAF3EB', dot: '#0F7B6C', label: 'Completed' },
 }
 
 export function StatusBadge({ status, onClick }) {
@@ -38,12 +50,20 @@ export function StatusBadge({ status, onClick }) {
       onClick={onClick}
       style={{
         background: s.bg, color: s.color,
-        fontSize: 11, fontWeight: 500,
-        padding: '3px 8px', borderRadius: 4,
+        fontSize: 11, fontWeight: 600,
+        padding: '4px 9px', borderRadius: 20,
         cursor: onClick ? 'pointer' : 'default',
         userSelect: 'none', whiteSpace: 'nowrap',
+        display: 'inline-flex', alignItems: 'center', gap: 5,
+        transition: 'opacity 0.15s',
       }}
+      onMouseEnter={e => onClick && (e.currentTarget.style.opacity = '0.8')}
+      onMouseLeave={e => onClick && (e.currentTarget.style.opacity = '1')}
     >
+      <span style={{
+        width: 5, height: 5, borderRadius: '50%',
+        background: s.dot, display: 'inline-block', flexShrink: 0,
+      }} />
       {s.label}
     </span>
   )
@@ -60,20 +80,25 @@ export function Btn({ children, onClick, variant = 'primary', size = 'md', disab
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.5 : 1,
     display: 'inline-flex', alignItems: 'center', gap: 6,
-    transition: 'opacity 0.15s',
+    transition: 'all 0.15s',
   }
-  const sizes = { sm: { fontSize: 12, padding: '6px 12px' }, md: { fontSize: 14, padding: '10px 18px' } }
+  const sizes = {
+    sm: { fontSize: 12, padding: '7px 13px', height: 32 },
+    md: { fontSize: 14, padding: '10px 18px', height: 40 },
+  }
   const variants = {
-    primary:  { background: '#191919', color: '#fff' },
-    green:    { background: '#0F7B6C', color: '#fff' },
-    ghost:    { background: 'transparent', color: '#73726C', border: '0.5px solid #E9E9E7' },
-    danger:   { background: '#EB5757', color: '#fff' },
+    primary:  { background: '#191919', color: '#fff', boxShadow: 'var(--shadow-sm)' },
+    green:    { background: '#0F7B6C', color: '#fff', boxShadow: 'var(--shadow-sm)' },
+    ghost:    { background: 'transparent', color: '#73726C', border: '1px solid #E9E9E7' },
+    danger:   { background: '#EB5757', color: '#fff', boxShadow: 'var(--shadow-sm)' },
   }
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       style={{ ...base, ...sizes[size], ...variants[variant], ...style }}
+      onMouseEnter={e => { if (!disabled) e.currentTarget.style.opacity = '0.85' }}
+      onMouseLeave={e => { if (!disabled) e.currentTarget.style.opacity = '1' }}
     >
       {children}
     </button>
@@ -91,15 +116,24 @@ export function Input({ label, error, ...props }) {
           fontFamily: 'DM Sans, sans-serif',
           fontSize: 14,
           padding: '10px 12px',
-          border: `0.5px solid ${error ? '#EB5757' : '#E9E9E7'}`,
+          border: `1px solid ${error ? '#EB5757' : '#E9E9E7'}`,
           borderRadius: 8,
           background: '#F7F7F5',
           color: '#191919',
           outline: 'none',
           width: '100%',
+          transition: 'border-color 0.15s, box-shadow 0.15s',
         }}
-        onFocus={e => e.target.style.borderColor = '#0F7B6C'}
-        onBlur={e => e.target.style.borderColor = error ? '#EB5757' : '#E9E9E7'}
+        onFocus={e => {
+          e.target.style.borderColor = '#0F7B6C'
+          e.target.style.boxShadow = '0 0 0 3px rgba(15,123,108,0.1)'
+          e.target.style.background = '#fff'
+        }}
+        onBlur={e => {
+          e.target.style.borderColor = error ? '#EB5757' : '#E9E9E7'
+          e.target.style.boxShadow = 'none'
+          e.target.style.background = '#F7F7F5'
+        }}
         {...props}
       />
       {error && <span style={{ fontSize: 12, color: '#EB5757' }}>{error}</span>}
@@ -112,28 +146,38 @@ export function Input({ label, error, ...props }) {
 export function Modal({ title, children, onClose, footer }) {
   return (
     <div style={{
-      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)',
+      position: 'fixed', inset: 0,
+      background: 'rgba(0,0,0,0.35)',
+      backdropFilter: 'blur(2px)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 1000, padding: 16,
     }} onClick={e => e.target === e.currentTarget && onClose()}>
       <div style={{
-        background: '#fff', borderRadius: 12, width: '100%', maxWidth: 480,
+        background: '#fff', borderRadius: 14, width: '100%', maxWidth: 480,
         maxHeight: '90vh', overflow: 'auto',
-        border: '0.5px solid #E9E9E7',
+        border: '1px solid #E9E9E7',
+        boxShadow: 'var(--shadow-lg)',
       }} className="animate-in">
         {/* Header */}
-        <div style={{ padding: '16px 20px', borderBottom: '0.5px solid #E9E9E7',
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{
+          padding: '16px 20px', borderBottom: '1px solid #F1F1EF',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}>
           <span style={{ fontSize: 15, fontWeight: 600 }}>{title}</span>
-          <button onClick={onClose} style={{ background: 'none', border: 'none',
-              cursor: 'pointer', color: '#73726C', fontSize: 18, lineHeight: 1 }}>✕</button>
+          <button onClick={onClose} style={{
+            background: '#F7F7F5', border: 'none', borderRadius: 6,
+            cursor: 'pointer', color: '#73726C', fontSize: 14,
+            width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>✕</button>
         </div>
         {/* Body */}
         <div style={{ padding: 20 }}>{children}</div>
         {/* Footer */}
         {footer && (
-          <div style={{ padding: '12px 20px', borderTop: '0.5px solid #E9E9E7',
-              display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+          <div style={{
+            padding: '12px 20px', borderTop: '1px solid #F1F1EF',
+            display: 'flex', justifyContent: 'flex-end', gap: 8,
+          }}>
             {footer}
           </div>
         )}
@@ -146,10 +190,15 @@ export function Modal({ title, children, onClose, footer }) {
 
 export function Empty({ icon = '📭', message, sub }) {
   return (
-    <div style={{ textAlign: 'center', padding: '48px 24px', color: '#73726C' }}>
-      <div style={{ fontSize: 32, marginBottom: 12 }}>{icon}</div>
-      <div style={{ fontSize: 14, fontWeight: 500, color: '#191919' }}>{message}</div>
-      {sub && <div style={{ fontSize: 12, marginTop: 6 }}>{sub}</div>}
+    <div style={{ textAlign: 'center', padding: '56px 24px', color: '#73726C' }}>
+      <div style={{
+        width: 56, height: 56, borderRadius: 16,
+        background: '#F1F1EF',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 26, margin: '0 auto 16px',
+      }}>{icon}</div>
+      <div style={{ fontSize: 15, fontWeight: 600, color: '#191919', marginBottom: 6 }}>{message}</div>
+      {sub && <div style={{ fontSize: 13, color: '#AFAEA9', lineHeight: 1.6 }}>{sub}</div>}
     </div>
   )
 }
@@ -167,6 +216,7 @@ export function Avatar({ name = '', index = 0, size = 36 }) {
       background: bg, color: '#fff',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: size * 0.35, fontWeight: 600, flexShrink: 0,
+      boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
     }}>
       {initials}
     </div>
