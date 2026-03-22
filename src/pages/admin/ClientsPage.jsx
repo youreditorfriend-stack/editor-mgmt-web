@@ -46,7 +46,7 @@ export default function ClientsPage() {
     <AdminLayout>
       <div style={{ padding: '28px 28px 40px', maxWidth: 1100 }}>
         <div style={{ marginBottom: 28 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 800, color: 'var(--t1)', fontFamily: 'Syne, sans-serif', marginBottom: 5 }}>
+          <h1 style={{ fontSize: 22, fontWeight: 800, color: 'var(--t1)', fontFamily: 'Inter, sans-serif', marginBottom: 5 }}>
             Clients
           </h1>
           <p style={{ fontSize: 13, color: 'var(--t3)' }}>Manage your client accounts and project progress.</p>
@@ -70,7 +70,7 @@ export default function ClientsPage() {
                 style={{
                   height: 36, padding: '0 12px', borderRadius: 8,
                   border: '1px solid var(--border2)', background: 'rgba(255,255,255,0.04)',
-                  color: 'var(--t1)', fontFamily: 'DM Sans, sans-serif', fontSize: 13, outline: 'none',
+                  color: 'var(--t1)', fontFamily: 'Inter, sans-serif', fontSize: 13, outline: 'none',
                 }}
               />
               <Btn variant="primary" size="sm" onClick={() => setModal(true)}>+ Add Client</Btn>
@@ -192,7 +192,7 @@ export default function ClientsPage() {
 function MiniStat({ label, value, color = 'var(--t2)' }) {
   return (
     <div style={{ textAlign: 'center', minWidth: 60 }}>
-      <div style={{ fontSize: 15, fontWeight: 700, color, fontFamily: 'Syne, sans-serif' }}>{value}</div>
+      <div style={{ fontSize: 15, fontWeight: 700, color, fontFamily: 'Inter, sans-serif' }}>{value}</div>
       <div style={{ fontSize: 10, color: 'var(--t3)', textTransform: 'uppercase', letterSpacing: 0.4, fontWeight: 600 }}>{label}</div>
     </div>
   )

@@ -118,7 +118,7 @@ export default function AuthPage({ mode = 'login' }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 36 }}>
           <LogoMark size={38} />
           <div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--t1)', fontFamily: 'Syne, sans-serif', lineHeight: 1 }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--t1)', fontFamily: 'Inter, sans-serif', lineHeight: 1 }}>
               Editor Friend
             </div>
             <div style={{ fontSize: 11, color: 'var(--t3)', marginTop: 2 }}>Platform Management</div>
@@ -142,7 +142,7 @@ export default function AuthPage({ mode = 'login' }) {
                 flex: 1, padding: '8px 0', borderRadius: 7, border: 'none',
                 background: tab === key ? 'var(--surface3)' : 'none',
                 color: tab === key ? 'var(--t1)' : 'var(--t3)',
-                fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 13,
+                fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13,
                 cursor: 'pointer', transition: 'all 0.15s',
                 boxShadow: tab === key ? '0 2px 6px rgba(0,0,0,0.3)' : 'none',
               }}>
@@ -164,7 +164,7 @@ export default function AuthPage({ mode = 'login' }) {
                     placeholder="••••••••"
                     value={pass} onChange={e => setPass(e.target.value)} required
                     style={{
-                      width: '100%', fontFamily: 'DM Sans, sans-serif', fontSize: 13,
+                      width: '100%', fontFamily: 'Inter, sans-serif', fontSize: 13,
                       padding: '10px 44px 10px 12px',
                       border: '1px solid var(--border2)', borderRadius: 9,
                       background: 'rgba(255,255,255,0.04)', color: 'var(--t1)', outline: 'none',
@@ -177,7 +177,7 @@ export default function AuthPage({ mode = 'login' }) {
                     position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
                     background: 'none', border: 'none', cursor: 'pointer',
                     color: 'var(--t3)', fontSize: 11, fontWeight: 600,
-                    fontFamily: 'DM Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                   }}>{showP ? 'Hide' : 'Show'}</button>
                 </div>
               </div>
@@ -234,7 +234,7 @@ export default function AuthPage({ mode = 'login' }) {
               background: 'rgba(255,255,255,0.05)',
               border: '1px solid var(--border2)',
               color: 'var(--t1)', cursor: gLoading ? 'wait' : 'pointer',
-              fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 13,
+              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13,
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
               transition: 'all 0.13s',
             }}

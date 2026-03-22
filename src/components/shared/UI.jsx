@@ -14,7 +14,7 @@ export function Spinner({ size = 18, color = 'var(--silver)' }) {
 export function Btn({ children, onClick, variant = 'primary', size = 'md', disabled, loading, style = {}, type = 'button' }) {
   const base = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-    fontFamily: 'DM Sans, sans-serif', fontWeight: 600, letterSpacing: 0.1,
+    fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: 0.1,
     cursor: disabled || loading ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.45 : 1,
     border: 'none', borderRadius: 9,
@@ -93,7 +93,7 @@ export function Input({ label, error, hint, icon, type = 'text', style = {}, inp
         <input
           type={type}
           style={{
-            width: '100%', fontFamily: 'DM Sans, sans-serif', fontSize: 13,
+            width: '100%', fontFamily: 'Inter, sans-serif', fontSize: 13,
             padding: icon ? '10px 12px 10px 36px' : '10px 12px',
             border: `1px solid ${error ? 'var(--red-border)' : 'var(--border2)'}`,
             borderRadius: 9, background: 'rgba(255,255,255,0.04)',
@@ -131,7 +131,7 @@ export function Select({ label, error, children, style = {}, ...props }) {
       )}
       <select
         style={{
-          width: '100%', fontFamily: 'DM Sans, sans-serif', fontSize: 13,
+          width: '100%', fontFamily: 'Inter, sans-serif', fontSize: 13,
           padding: '10px 12px',
           border: `1px solid ${error ? 'var(--red-border)' : 'var(--border2)'}`,
           borderRadius: 9, background: 'rgba(255,255,255,0.04)',
@@ -175,7 +175,7 @@ export function Modal({ title, children, onClose, footer, width = 480 }) {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexShrink: 0,
         }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Syne, sans-serif' }}>
+          <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Inter, sans-serif' }}>
             {title}
           </span>
           <button
@@ -259,7 +259,7 @@ export function StatCard({ label, value, icon, color = 'var(--silver)', sub, tre
           </span>
         )}
       </div>
-      <div style={{ fontSize: 26, fontWeight: 700, color, fontFamily: 'Syne, sans-serif', lineHeight: 1, marginBottom: 5 }}>
+      <div style={{ fontSize: 26, fontWeight: 700, color, fontFamily: 'Inter, sans-serif', lineHeight: 1, marginBottom: 5 }}>
         {value}
       </div>
       <div style={{ fontSize: 11, color: 'var(--t2)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: 0.5 }}>
@@ -321,7 +321,7 @@ export function Avatar({ name = '', size = 36, photoURL }) {
       border: `2px solid ${AV_COLORS[idx]}44`,
       color: AV_COLORS[idx], fontWeight: 700, flexShrink: 0,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: size * 0.35, fontFamily: 'Syne, sans-serif',
+      fontSize: size * 0.35, fontFamily: 'Inter, sans-serif',
     }}>
       {initials}
     </div>
@@ -338,7 +338,7 @@ export function Empty({ icon = '📭', title, sub, action }) {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 28, margin: '0 auto 18px',
       }}>{icon}</div>
-      <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--t1)', marginBottom: 7, fontFamily: 'Syne, sans-serif' }}>{title}</div>
+      <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--t1)', marginBottom: 7, fontFamily: 'Inter, sans-serif' }}>{title}</div>
       {sub && <div style={{ fontSize: 13, color: 'var(--t2)', lineHeight: 1.7, marginBottom: 20 }}>{sub}</div>}
       {action}
     </div>
@@ -355,7 +355,7 @@ export function showToast(msg, type = 'ok') {
     document.body.appendChild(el)
     Object.assign(el.style, {
       position: 'fixed', bottom: '24px', right: '24px', zIndex: '9999',
-      fontFamily: 'DM Sans, sans-serif', fontSize: '13px', fontWeight: '500',
+      fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: '500',
       padding: '10px 16px', borderRadius: '10px',
       backdropFilter: 'blur(12px)',
       transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
@@ -396,7 +396,7 @@ export function SectionHeader({ title, count, action, sub }) {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Syne, sans-serif' }}>{title}</h2>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Inter, sans-serif' }}>{title}</h2>
           {count !== undefined && (
             <span style={{
               fontSize: 10, background: 'var(--surface3)', color: 'var(--t3)',
@@ -458,7 +458,7 @@ export function LogoMark({ size = 30 }) {
       background: 'linear-gradient(135deg, #e0e0e0, #888)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       color: '#0a0a0a', fontSize: size * 0.38, fontWeight: 800,
-      fontFamily: 'Syne, sans-serif', flexShrink: 0,
+      fontFamily: 'Inter, sans-serif', flexShrink: 0,
       boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
     }}>EF</div>
   )

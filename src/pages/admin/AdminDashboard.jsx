@@ -39,7 +39,7 @@ export default function AdminDashboard() {
 
         {/* ── Welcome ── */}
         <div style={{ marginBottom: 28 }} className="anim-up">
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--t1)', fontFamily: 'Syne, sans-serif', marginBottom: 5 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--t1)', fontFamily: 'Inter, sans-serif', marginBottom: 5 }}>
             {greeting()}, {user?.name?.split(' ')[0]} 👋
           </h1>
           <p style={{ fontSize: 13, color: 'var(--t3)' }}>
@@ -174,7 +174,7 @@ function QuickCard({ title, value, icon, sub, link }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0,
         }}>{icon}</div>
         <div>
-          <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Syne, sans-serif' }}>{value}</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--t1)', fontFamily: 'Inter, sans-serif' }}>{value}</div>
           <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--t2)' }}>{title}</div>
           <div style={{ fontSize: 11, color: 'var(--t3)' }}>{sub}</div>
         </div>
@@ -187,6 +187,6 @@ const thStyle = { padding: '10px 14px', textAlign: 'left', fontSize: 10, fontWei
 const tdStyle = { padding: '12px 14px', verticalAlign: 'middle', transition: 'background 0.1s' }
 const addBtnStyle = {
   padding: '10px 20px', borderRadius: 9, border: '1px solid var(--border2)',
-  background: 'var(--surface2)', color: 'var(--t1)', fontFamily: 'DM Sans, sans-serif',
+  background: 'var(--surface2)', color: 'var(--t1)', fontFamily: 'Inter, sans-serif',
   fontWeight: 600, fontSize: 13, cursor: 'pointer',
 }
