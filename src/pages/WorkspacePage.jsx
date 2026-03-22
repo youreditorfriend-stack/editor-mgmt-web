@@ -39,20 +39,27 @@ export default function WorkspacePage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#FAFAF9' }}>
       {/* Topbar */}
       <div style={{
-        background: '#fff', borderBottom: '0.5px solid #E9E9E7',
+        background: '#fff', borderBottom: '1px solid #F1F1EF',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
         padding: '0 24px', height: 52,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        flexShrink: 0,
+        flexShrink: 0, position: 'sticky', top: 0, zIndex: 100,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Link to="/dashboard" style={{ fontSize: 13, color: '#73726C', textDecoration: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Link to="/dashboard" style={{
+            fontSize: 13, color: '#73726C', textDecoration: 'none',
+            display: 'flex', alignItems: 'center', gap: 4,
+          }}>
             ← Dashboard
           </Link>
           <span style={{ color: '#E9E9E7' }}>|</span>
-          <span style={{ fontSize: 14, fontWeight: 500 }}>Workspace</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: '#191919' }}>Workspace</span>
         </div>
-        <span style={{ fontSize: 12, color: '#AFAEA9' }}>
-          {tasks.length} rows · {columns.length} columns
+        <span style={{
+          fontSize: 11, color: '#AFAEA9', fontWeight: 500,
+          background: '#F7F7F5', padding: '3px 10px', borderRadius: 10,
+        }}>
+          {tasks.length} rows · {columns.length} cols
         </span>
       </div>
 
@@ -71,17 +78,18 @@ export default function WorkspacePage() {
 
       {/* Add row */}
       <div style={{
-        borderTop: '0.5px solid #E9E9E7', background: '#fff',
+        borderTop: '1px solid #F1F1EF', background: '#fff',
         flexShrink: 0,
       }}>
         <button
           onClick={addRow}
           style={{
-            width: '100%', padding: '12px 24px',
+            width: '100%', padding: '11px 24px',
             background: 'none', border: 'none', cursor: 'pointer',
             textAlign: 'left', fontSize: 13, color: '#73726C',
-            fontFamily: 'DM Sans, sans-serif',
+            fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
             display: 'flex', alignItems: 'center', gap: 8,
+            transition: 'background 0.12s',
           }}
           onMouseEnter={e => e.currentTarget.style.background = '#F7F7F5'}
           onMouseLeave={e => e.currentTarget.style.background = 'none'}
@@ -109,7 +117,7 @@ function DynamicTable({ columns, tasks, editorId }) {
       }}>
         {/* Header */}
         <thead>
-          <tr style={{ background: '#F7F7F5', position: 'sticky', top: 0, zIndex: 10 }}>
+          <tr style={{ background: '#F9F9F8', position: 'sticky', top: 0, zIndex: 10 }}>
             <th style={{ width: NUM_W, ...thStyle }}>#</th>
             {columns.map(col => (
               <th key={col.id} style={{ width: COL_W, ...thStyle }}>
@@ -148,13 +156,14 @@ function DynamicTable({ columns, tasks, editorId }) {
 }
 
 const thStyle = {
-  padding: '8px 10px',
+  padding: '9px 10px',
   textAlign: 'left',
-  fontSize: 11,
-  fontWeight: 500,
-  color: '#73726C',
-  letterSpacing: 0.5,
-  borderBottom: '0.5px solid #E9E9E7',
+  fontSize: 10,
+  fontWeight: 700,
+  color: '#AFAEA9',
+  letterSpacing: 0.7,
+  textTransform: 'uppercase',
+  borderBottom: '1px solid #E9E9E7',
   whiteSpace: 'nowrap',
 }
 
