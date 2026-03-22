@@ -13,10 +13,15 @@ const firebaseConfig = {
   measurementId: "G-4JWYMJ8NCZ"
 }
 
+// Primary app
 const app = initializeApp(firebaseConfig)
-
 export const auth = getAuth(app)
-export const db = getFirestore(app)
-
-// Persistent login — stays logged in across browser restarts
+export const db   = getFirestore(app)
 setPersistence(auth, browserLocalPersistence)
+
+// Secondary app — used to create editor/client accounts without signing out admin
+export const secondaryApp  = initializeApp(firebaseConfig, 'secondary')
+export const secondaryAuth = getAuth(secondaryApp)
+
+// Master admin email — set this to the real master admin email
+export const MASTER_ADMIN_EMAIL = 'masteradmin@editorfriend.com'
