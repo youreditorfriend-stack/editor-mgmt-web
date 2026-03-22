@@ -110,23 +110,25 @@ export function onPendingAdmins(callback) {
   const q = query(
     collection(db, 'Users'),
     where('role', '==', 'admin'),
-    where('status', '==', 'pending'),
-    orderBy('createdAt', 'desc')
+    where('status', '==', 'pending')
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export function onAllAdmins(callback) {
   const q = query(
     collection(db, 'Users'),
-    where('role', '==', 'admin'),
-    orderBy('createdAt', 'desc')
+    where('role', '==', 'admin')
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export async function approveAdmin(uid) {
@@ -167,12 +169,13 @@ export function onMyEditors(adminId, callback) {
   const q = query(
     collection(db, 'Users'),
     where('role', '==', 'editor'),
-    where('adminId', '==', adminId),
-    orderBy('createdAt', 'desc')
+    where('adminId', '==', adminId)
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export async function createEditor(adminId, { name, email, password }) {
@@ -208,12 +211,13 @@ export function onMyClients(adminId, callback) {
   const q = query(
     collection(db, 'Users'),
     where('role', '==', 'client'),
-    where('adminId', '==', adminId),
-    orderBy('createdAt', 'desc')
+    where('adminId', '==', adminId)
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export async function createClient(adminId, { name, email, company = '', password }) {
@@ -244,34 +248,37 @@ export async function deleteClient(clientId) {
 export function onMyTasks(adminId, callback) {
   const q = query(
     collection(db, 'Tasks'),
-    where('adminId', '==', adminId),
-    orderBy('assignedDate', 'desc')
+    where('adminId', '==', adminId)
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.assignedDate?.toMillis?.() ?? 0) - (a.assignedDate?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export function onEditorTasks(editorId, callback) {
   const q = query(
     collection(db, 'Tasks'),
-    where('editorId', '==', editorId),
-    orderBy('assignedDate', 'desc')
+    where('editorId', '==', editorId)
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.assignedDate?.toMillis?.() ?? 0) - (a.assignedDate?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export function onClientTasks(clientId, callback) {
   const q = query(
     collection(db, 'Tasks'),
-    where('clientId', '==', clientId),
-    orderBy('assignedDate', 'desc')
+    where('clientId', '==', clientId)
   )
-  return onSnapshot(q, snap =>
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-  )
+  return onSnapshot(q, snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    docs.sort((a, b) => (b.assignedDate?.toMillis?.() ?? 0) - (a.assignedDate?.toMillis?.() ?? 0))
+    callback(docs)
+  })
 }
 
 export async function createTask(adminId, { editorId, clientId = '', title, description = '', editorAmount = 0, clientAmount = 0, deadline = null }) {
